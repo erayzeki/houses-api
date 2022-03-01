@@ -10,6 +10,8 @@ const connectDB = require("./db/connect");
 // routers
 const authRouter = require("./routes/authRoute");
 
+app.use(express.json());
+
 // routes
 app.use("/api/v1/auth", authRouter);
 
