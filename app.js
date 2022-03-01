@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("express-async-errors");
 
 // import and setup express
 const express = require("express");
@@ -8,18 +9,26 @@ const app = express();
 const connectDB = require("./db/connect");
 
 // routers
-const authRouter = require("./routes/authRoute");
+const authRouter = require("./routes/authRouter");
+
+// error handlers
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
 
 // routes
 app.use("/api/v1/auth", authRouter);
 
-const port = process.env.PORT || 3000;
-
 app.get("/", (req, res) => {
   res.send(`<h1>Server is listening on port ${port}</h1>`);
 });
+
+// middlewares
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
+
+const port = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
