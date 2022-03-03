@@ -7,7 +7,8 @@ const createHouse = async (req, res) => {
 };
 
 const getAllHouses = async (req, res) => {
-  res.send("Get All Houses");
+  const houses = await House.find({});
+  res.status(StatusCodes.OK).json({ houses, count: houses.length });
 };
 
 const getHouse = async (req, res) => {
