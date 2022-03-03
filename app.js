@@ -10,6 +10,7 @@ const connectDB = require("./db/connect");
 
 // routers
 const authRouter = require("./routes/authRouter");
+const houseRouter = require("./routes/houseRouter");
 
 // error handlers
 const notFoundMiddleware = require("./middleware/not-found");
@@ -19,6 +20,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/houses", houseRouter);
 
 app.get("/", (req, res) => {
   res.send(`<h1>Server is listening on port ${port}</h1>`);
