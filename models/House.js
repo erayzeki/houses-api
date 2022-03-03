@@ -51,6 +51,11 @@ const HouseSchema = new mongoose.Schema({
     enum: ["Yes", "No"],
     default: "No",
   },
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: [true, "Please provide a user"],
+  },
 });
 
 module.exports = mongoose.model("House", HouseSchema);

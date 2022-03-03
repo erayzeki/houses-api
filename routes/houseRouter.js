@@ -10,7 +10,7 @@ const {
   deleteHouse,
 } = require("../controllers/houseController");
 
-router.route("/").post(createHouse).get(getAllHouses);
+router.route("/").get(getAllHouses);
 
 router.post("/", auth, createHouse);
 router.patch("/:id", auth, updateHouse);
