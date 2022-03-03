@@ -1,4 +1,3 @@
-const { send } = require("express/lib/response");
 const { StatusCodes } = require("http-status-codes");
 const { NotFoundError } = require("../errors");
 const House = require("../models/House");
