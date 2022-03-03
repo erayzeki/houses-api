@@ -26,7 +26,9 @@ const updateHouse = async (req, res) => {
 };
 
 const deleteHouse = async (req, res) => {
-  res.send("Delete House");
+  const houseId = req.params.id;
+  const result = await House.findOneAndRemove({ _id: houseId });
+  res.status(StatusCodes.OK).json({ result });
 };
 
 module.exports = {
