@@ -15,7 +15,6 @@ const HouseSchema = new mongoose.Schema({
   area: {
     type: Number,
     required: [true, "Please provide area"],
-    min: 1,
   },
   room: {
     type: String,
@@ -24,7 +23,6 @@ const HouseSchema = new mongoose.Schema({
   bathroom: {
     type: Number,
     default: 1,
-    min: 1,
   },
   age: {
     type: String,
