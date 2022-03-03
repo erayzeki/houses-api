@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../middleware/authentication");
 
 const {
   getAllHouses,
@@ -10,6 +11,10 @@ const {
 } = require("../controllers/houseController");
 
 router.route("/").post(createHouse).get(getAllHouses);
-router.route("/:id").get(getHouse).delete(deleteHouse).patch(updateHouse);
+
+router.patch("/:id", auth, updateHouse);
+router.delete("/:id", auth, deleteHouse);
+
+router.route("/:id").get(getHouse);
 
 module.exports = router;

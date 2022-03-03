@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { UnauthenticatedError } = require("../errors");
 
 const auth = (req, res, next) => {
-  const authHeader = req.header.authorization;
+  const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new UnauthenticatedError("Authentication failed");
   }
