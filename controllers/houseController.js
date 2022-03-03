@@ -1,3 +1,4 @@
+const { send } = require("express/lib/response");
 const { StatusCodes } = require("http-status-codes");
 const { NotFoundError } = require("../errors");
 const House = require("../models/House");
@@ -22,13 +23,30 @@ const getHouse = async (req, res) => {
 };
 
 const updateHouse = async (req, res) => {
-  res.send("Update House");
+  const houseId = req.params.id;
+  const house = await House.findOneAndUpdate(
+    {
+      _id: houseId,
+    },
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!house) {
+    throw new NotFoundError(`No house found with id: ${houseId}`);
+  }
+
+  res.status(StatusCodes.OK).json({ house });
 };
 
 const deleteHouse = async (req, res) => {
   const houseId = req.params.id;
-  const result = await House.findOneAndRemove({ _id: houseId });
-  res.status(StatusCodes.OK).json({ result });
+  const house = await House.findOneAndRemove({ _id: houseId });
+
+  if (!house) {
+    throw new NotFoundError(`No house found with id: ${houseId}`);
+  }
+  res.status(StatusCodes.OK).send();
 };
 
 module.exports = {
