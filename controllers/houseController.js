@@ -1,4 +1,3 @@
-const { query } = require("express");
 const { StatusCodes } = require("http-status-codes");
 const { NotFoundError } = require("../errors");
 const House = require("../models/House");
@@ -10,17 +9,8 @@ const createHouse = async (req, res) => {
 };
 
 const getAllHouses = async (req, res) => {
-  const {
-    town,
-    rent,
-    area,
-    room,
-    bathroom,
-    age,
-    balcony,
-    furniture,
-    numericFilters,
-  } = req.query;
+  const { town, room, bathroom, balcony, furniture, numericFilters } =
+    req.query;
 
   const queryObject = {};
 
@@ -45,6 +35,28 @@ const getAllHouses = async (req, res) => {
   if (furniture) {
     queryObject.furniture =
       furniture.charAt(0).toUpperCase() + furniture.slice(1).toLowerCase();
+  }
+
+  if (numericFilters) {
+    const operatorMap = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+    const regEx = /\b(<|>|>=|=|<|<=)\b/g;
+    let filters = numericFilters.replace(
+      regEx,
+      (match) => `-${operatorMap[match]}-`
+    );
+    const options = ["rent", "area"];
+    filters = filters.split(",").forEach((item) => {
+      const [field, operator, value] = item.split("-");
+      if (options.includes(field)) {
+        queryObject[field] = { [operator]: Number(value) };
+      }
+    });
   }
 
   console.log(queryObject);
