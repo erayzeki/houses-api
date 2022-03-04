@@ -1,3 +1,4 @@
+const { query } = require("express");
 const { StatusCodes } = require("http-status-codes");
 const { NotFoundError } = require("../errors");
 const House = require("../models/House");
@@ -9,7 +10,45 @@ const createHouse = async (req, res) => {
 };
 
 const getAllHouses = async (req, res) => {
-  const houses = await House.find({});
+  const {
+    town,
+    rent,
+    area,
+    room,
+    bathroom,
+    age,
+    balcony,
+    furniture,
+    numericFilters,
+  } = req.query;
+
+  const queryObject = {};
+
+  if (town) {
+    queryObject.town =
+      town.charAt(0).toUpperCase() + town.slice(1).toLowerCase();
+  }
+
+  if (room) {
+    queryObject.room = room.split(" ").join("+");
+  }
+
+  if (bathroom) {
+    queryObject.bathroom = bathroom;
+  }
+
+  if (balcony) {
+    queryObject.balcony =
+      balcony.charAt(0).toUpperCase() + balcony.slice(1).toLowerCase();
+  }
+
+  if (furniture) {
+    queryObject.furniture =
+      furniture.charAt(0).toUpperCase() + furniture.slice(1).toLowerCase();
+  }
+
+  console.log(queryObject);
+  const houses = await House.find(queryObject);
   res.status(StatusCodes.OK).json({ houses, count: houses.length });
 };
 
