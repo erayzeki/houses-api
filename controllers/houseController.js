@@ -12,6 +12,7 @@ const getAllHouses = async (req, res) => {
   const { town, room, bathroom, balcony, furniture, numericFilters } =
     req.query;
 
+  console.log(req.query);
   const queryObject = {};
 
   if (town) {
@@ -50,6 +51,7 @@ const getAllHouses = async (req, res) => {
       regEx,
       (match) => `-${operatorMap[match]}-`
     );
+    console.log(filters);
     const options = ["rent", "area"];
     filters = filters.split(",").forEach((item) => {
       const [field, operator, value] = item.split("-");
