@@ -1,0 +1,326 @@
+openapi: 3.0.0
+info:
+  title: Houses API
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://houses-api-project.herokuapp.com/api/v1
+  variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+            example:
+              name: dummyuser2
+              email: dummy2@gmail.com
+              password: dummy2password
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login User
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+            example:
+              email: dummy@gmail.com
+              password: dummypassword
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /houses:
+    parameters:
+      - in: query
+        name: numericFilters
+        schema:
+          type: string
+        required: false
+        description: Numeric filters to filter houses according to their rent and area. (rent<5000).
+      - in: query
+        name: town
+        schema:
+          type: string
+        required: false
+        description: Filter houses by town property.
+      - in: query
+        name: room
+        schema:
+          type: string
+          enum: [1+1, 1.5+1, 2+0, 2+1, 2+2, 2.5+1, 3+1, 3+2, 3.5+1, 4+1, 4+2, 4.5+1, 5+1, 5+2, 6+1, 6+2, 7+2, Studyo]
+        required: false
+        description: Filter houses by room property.
+      - in: query
+        name: balcony
+        schema:
+          type: string
+          enum: [yes, no]
+        required: false
+        description: Filter houses by balcony property.
+      - in: query
+        name: furniture
+        schema:
+          type: string
+          enum: [yes, no]
+        required: false
+        description: Filter houses by furniture property.
+      - in: query
+        name: bathroom
+        schema:
+          type: string
+        required: false
+        description: Filter houses by bathroom property.
+    post:
+      tags:
+      - Houses
+      summary: Create House
+      operationId: CreateHouse
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHouseRequest'
+            example:
+              town: Bahcelievler
+              rent: 7500
+              area: 75
+              room: 3+1
+              bathroom: 2
+              age: 5-10
+              balcony: No
+              furniture: Yes
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - Houses
+      summary: Get All Houses
+      operationId: GetAllHouses
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /houses/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: The House ID.
+    get:
+      tags:
+      - Houses
+      summary: Get Single House
+      operationId: GetSingleHouse
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+    delete:
+      tags:
+      - Houses
+      summary: Delete House
+      operationId: DeleteHouse
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    patch:
+      tags:
+      - Houses
+      summary: Update House
+      operationId: UpdateHouse
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateHouseRequest'
+            example:
+              town: deneme2
+              rent: 10000
+              area: 130
+              room: 3+1
+              bathroom: 2
+              age: 5-10
+              balcony: No
+              furniture: Yes
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: dummyuser2
+        email: dummy2@gmail.com
+        password: dummy2password
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: dummy@gmail.com
+        password: dummypassword
+    CreateHouseRequest:
+      title: CreateHouseRequest
+      required:
+      - town
+      - rent
+      - area
+      - room
+      - bathroom
+      - age
+      - balcony
+      - furniture
+      type: object
+      properties:
+        town:
+          type: string
+        rent:
+          type: integer
+          format: int32
+        area:
+          type: integer
+          format: int32
+        room:
+          type: string
+        bathroom:
+          type: integer
+          format: int32
+        age:
+          type: string
+        balcony:
+          type: string
+        furniture:
+          type: string
+      example:
+        town: Bahcelievler
+        rent: 7500
+        area: 75
+        room: 3+1
+        bathroom: 2
+        age: 5-10
+        balcony: No
+        furniture: Yes
+    UpdateHouseRequest:
+      title: UpdateHouseRequest
+      required:
+      - town
+      - rent
+      - area
+      - room
+      - bathroom
+      - age
+      - balcony
+      - furniture
+      type: object
+      properties:
+        town:
+          type: string
+        rent:
+          type: integer
+          format: int32
+        area:
+          type: integer
+          format: int32
+        room:
+          type: string
+        bathroom:
+          type: integer
+          format: int32
+        age:
+          type: string
+        balcony:
+          type: string
+        furniture:
+          type: string
+      example:
+        town: deneme2
+        rent: 10000
+        area: 130
+        room: 3+1
+        bathroom: 2
+        age: 5-10
+        balcony: No
+        furniture: Yes
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+- name: Auth
+  description: ''
+- name: Houses
+  description: ''

@@ -6,6 +6,11 @@ const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 
+//swagger
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
+
 // import and setup express
 const express = require("express");
 const app = express();
@@ -37,8 +42,12 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/houses", houseRouter);
 
 app.get("/", (req, res) => {
-  res.send(`<h1>Server is listening on port ${port}</h1>`);
+  res.send(
+    `<h1><center>Houses API</center></h1><h2><center><a href="/api-docs">Documentation</a></center></h2>`
+  );
 });
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // middlewares
 app.use(notFoundMiddleware);
