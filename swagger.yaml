@@ -55,7 +55,41 @@ paths:
       deprecated: false
       security: []
   /houses:
-    parameters:
+    post:
+      tags:
+      - Houses
+      summary: Create House
+      operationId: CreateHouse
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHouseRequest'
+            example:
+              town: Bahcelievler
+              rent: 7500
+              area: 75
+              room: 3+1
+              bathroom: 2
+              age: 5-10
+              balcony: No
+              furniture: Yes
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - Houses
+      summary: Get All Houses
+      operationId: GetAllHouses
+      parameters:
       - in: query
         name: numericFilters
         schema:
@@ -95,41 +129,6 @@ paths:
           type: string
         required: false
         description: Filter houses by bathroom property.
-    post:
-      tags:
-      - Houses
-      summary: Create House
-      operationId: CreateHouse
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateHouseRequest'
-            example:
-              town: Bahcelievler
-              rent: 7500
-              area: 75
-              room: 3+1
-              bathroom: 2
-              age: 5-10
-              balcony: No
-              furniture: Yes
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security:
-      - bearer: []
-    get:
-      tags:
-      - Houses
-      summary: Get All Houses
-      operationId: GetAllHouses
-      parameters: []
       responses:
         '200':
           description: ''
