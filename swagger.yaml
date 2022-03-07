@@ -141,7 +141,7 @@ paths:
       - in: path
         name: id
         schema:
-          type: integer
+          type: string
         required: true
         description: The House ID.
     get:
