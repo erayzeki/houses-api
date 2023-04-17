@@ -19,7 +19,7 @@ Houses API is an API created with NodeJS and Express for learning purposes.
 - [Swagger] - Interface Description Language for describing RESTful APIs expressed using JSON.
 
 ## Documentation
-You can access documentation of the API and test it via [Houses API](https://houses-api-project.herokuapp.com).
+You can access documentation of the API and test it via [Houses API](https://houses-api-project.herokuapp.com). (Outdated. Will be updated soon.)
 
 ## License
 
